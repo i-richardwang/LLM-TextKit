@@ -21,14 +21,14 @@ class Categories(BaseModel):
 class SingleLabelTextClassification(BaseModel):
     """Single-label classification result for a text"""
 
-    id: str = Field(..., description="Unique identifier of the text")
+    id: str = Field(..., description="Text ID from the first column of the input table")
     category: str = Field(..., description="Category determined by predefined classification rules")
 
 
 class MultiLabelTextClassification(BaseModel):
     """Multi-label classification result for a text"""
 
-    id: str = Field(..., description="Unique identifier of the text")
+    id: str = Field(..., description="Text ID from the first column of the input table")
     categories: List[str] = Field(..., description="Multiple categories determined by predefined classification rules")
 
 

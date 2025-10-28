@@ -343,7 +343,28 @@ def classify_texts(
         except Exception as e:
             print(f"Error processing batch in session {session_id}: {str(e)}")
 
+    # Ensure we have classification results
+    if not classification_results:
+        raise ValueError("No classification results were generated")
+    
     df_classifications = pd.DataFrame(classification_results)
+    
+    # Handle different possible ID column names from LLM response
+    # The LLM might return 'id', 'unique_id', or other variations
+    possible_id_columns = ['id', id_column, 'ID', 'Id']
+    id_col_in_result = None
+    
+    for col in possible_id_columns:
+        if col in df_classifications.columns:
+            id_col_in_result = col
+            break
+    
+    if id_col_in_result is None:
+        raise ValueError(f"Classification results missing ID field. Found columns: {list(df_classifications.columns)}")
+    
+    # Rename the ID column to 'id' for consistent merging
+    if id_col_in_result != 'id':
+        df_classifications = df_classifications.rename(columns={id_col_in_result: 'id'})
 
     if is_multi_label:
         # Process multi-label classification results
