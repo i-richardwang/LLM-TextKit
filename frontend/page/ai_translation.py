@@ -265,7 +265,7 @@ def main() -> None:
             
             if st.button("📥 导入示例数据", key="demo_data_translation"):
                 try:
-                    demo_path = "data/uploads/demo_texts.csv"
+                    demo_path = os.path.join(os.path.dirname(__file__), "..", "demo_data", "demo_texts.csv")
                     df_demo = pd.read_csv(demo_path)
                     st.session_state.uploaded_df = df_demo
                     st.success("✅ 已加载示例数据")

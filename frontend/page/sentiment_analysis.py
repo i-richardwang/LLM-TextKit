@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import uuid
 import asyncio
+import os
 from typing import List
 
 from frontend.ui_components import show_sidebar, show_footer, apply_common_styles, display_project_info
@@ -180,7 +181,7 @@ def main():
             
             if st.button("📥 导入示例数据"):
                 try:
-                    demo_path = "data/uploads/demo_texts.csv"
+                    demo_path = os.path.join(os.path.dirname(__file__), "..", "demo_data", "demo_texts.csv")
                     st.session_state.df = pd.read_csv(demo_path)
                     st.success("✅ 已加载示例数据")
                 except Exception as e:

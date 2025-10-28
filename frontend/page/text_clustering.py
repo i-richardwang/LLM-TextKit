@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import uuid
+import os
 from typing import Dict
 
 from frontend.ui_components import show_sidebar, show_footer, apply_common_styles, display_project_info
@@ -156,7 +157,7 @@ def handle_data_input_and_clustering():
         
         if st.button("📥 导入示例数据"):
             try:
-                demo_path = "data/uploads/demo_texts.csv"
+                demo_path = os.path.join(os.path.dirname(__file__), "..", "demo_data", "demo_texts.csv")
                 df = pd.read_csv(demo_path)
                 df["unique_id"] = [f"ID{i:06d}" for i in range(1, len(df) + 1)]
                 st.session_state.df_preprocessed = df
