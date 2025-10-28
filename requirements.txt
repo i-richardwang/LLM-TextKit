@@ -1,0 +1,26 @@
+# LLM-TextKit Requirements
+# Python >= 3.12
+
+# Core dependencies
+python-dotenv>=1.0.1
+pydantic>=2.7.4
+
+# LLM and AI
+langchain-openai>=0.2.0
+langchain-core>=0.3.0
+langchain>=0.3.0
+langchain-community>=0.3.0
+openai>=1.45.0
+
+# Monitoring and observability
+langfuse>=2.48.1
+
+# Data processing
+pandas>=2.2.2
+
+# Text processing
+regex~=2023.10.3
+
+# UI
+streamlit>=1.38.0
+

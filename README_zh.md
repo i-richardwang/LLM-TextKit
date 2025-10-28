@@ -50,20 +50,22 @@
 
 ### 1. 环境准备
 
-本项目使用 [UV](https://github.com/astral-sh/uv) 进行依赖管理。
-
 ```bash
 # 克隆仓库
 git clone https://github.com/i-richardwang/LLM-TextKit.git
 cd LLM-TextKit
 
-# 安装 UV（如果尚未安装）
-curl -LsSf https://astral.sh/uv/install.sh | sh
-# 或在 macOS 上使用 Homebrew
-brew install uv
+# 创建虚拟环境
+python -m venv venv
 
-# 同步依赖（自动创建虚拟环境并安装所有依赖）
-uv sync
+# 激活虚拟环境
+# macOS/Linux:
+source venv/bin/activate
+# Windows:
+# venv\Scripts\activate
+
+# 安装依赖
+pip install -r requirements.txt
 ```
 
 ### 2. 配置环境变量
@@ -107,7 +109,7 @@ OPENAI_MODEL_NAME=Qwen/Qwen2-72B-Instruct
 ### 3. 启动应用
 
 ```bash
-uv run streamlit run frontend/app.py
+streamlit run frontend/app.py
 ```
 
 应用将在浏览器中自动打开，默认地址为 `http://localhost:8501`
@@ -116,13 +118,13 @@ uv run streamlit run frontend/app.py
 
 ### Streamlit Cloud
 
-Streamlit Cloud 支持从 `pyproject.toml` 自动读取依赖：
-
 1. 将代码推送到 GitHub 仓库
 2. 访问 [Streamlit Cloud](https://streamlit.io/cloud)
 3. 连接你的 GitHub 仓库，主文件设置为 `frontend/app.py`
 4. 在 Settings > Secrets 中添加环境变量（参考 `secrets.toml.example`）
 5. 部署完成！
+
+Streamlit Cloud 会自动从 `requirements.txt` 读取依赖。
 
 ## 使用指南
 

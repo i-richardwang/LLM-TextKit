@@ -50,20 +50,22 @@ High-quality multilingual translation tool with contextual understanding:
 
 ### 1. Environment Setup
 
-This project uses [UV](https://github.com/astral-sh/uv) for dependency management.
-
 ```bash
 # Clone repository
 git clone https://github.com/i-richardwang/LLM-TextKit.git
 cd LLM-TextKit
 
-# Install UV (if not already installed)
-curl -LsSf https://astral.sh/uv/install.sh | sh
-# Or use Homebrew on macOS
-brew install uv
+# Create virtual environment
+python -m venv venv
 
-# Sync dependencies (automatically creates virtual environment and installs all dependencies)
-uv sync
+# Activate virtual environment
+# On macOS/Linux:
+source venv/bin/activate
+# On Windows:
+# venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
 ```
 
 ### 2. Configure Environment Variables
@@ -107,7 +109,7 @@ OPENAI_MODEL_NAME=Qwen/Qwen2-72B-Instruct
 ### 3. Launch Application
 
 ```bash
-uv run streamlit run frontend/app.py
+streamlit run frontend/app.py
 ```
 
 The application will automatically open in your browser, default address is `http://localhost:8501`
@@ -116,13 +118,13 @@ The application will automatically open in your browser, default address is `htt
 
 ### Streamlit Cloud
 
-Streamlit Cloud supports automatic dependency reading from `pyproject.toml`:
-
 1. Push code to GitHub repository
 2. Visit [Streamlit Cloud](https://streamlit.io/cloud)
 3. Connect your GitHub repository, set main file to `frontend/app.py`
 4. Add environment variables in Settings > Secrets (refer to `secrets.toml.example`)
 5. Deployment complete!
+
+Streamlit Cloud will automatically read dependencies from `requirements.txt`.
 
 ## User Guide
 
