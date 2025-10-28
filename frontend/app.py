@@ -11,9 +11,16 @@ sys.path.append(project_root)
 load_dotenv()
 
 from langchain_core.globals import set_llm_cache
-from langchain_community.cache import SQLiteCache
+from langchain_community.cache import SQLiteCache, InMemoryCache
 
-set_llm_cache(SQLiteCache(database_path="data/llm_cache/langchain.db"))
+# Use InMemoryCache for Streamlit Cloud, SQLiteCache for local development
+if os.path.exists("data"):
+    # Local environment - use persistent cache
+    os.makedirs("data/llm_cache", exist_ok=True)
+    set_llm_cache(SQLiteCache(database_path="data/llm_cache/langchain.db"))
+else:
+    # Streamlit Cloud - use in-memory cache
+    set_llm_cache(InMemoryCache())
 
 # Configure page settings
 st.set_page_config(
