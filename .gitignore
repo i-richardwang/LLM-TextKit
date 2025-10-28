@@ -169,4 +169,4 @@ cython_debug/
 # MacOS
 .DS_Store
 .streamlit/secrets.toml
-data/db/tasks.db
+data/db/tasks.dbuv.lock
