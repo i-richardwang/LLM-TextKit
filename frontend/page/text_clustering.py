@@ -40,10 +40,10 @@ def initialize_session_state():
 
     if st.session_state.clustering_params is None:
         st.session_state.clustering_params = {
-            "min_categories": 10,
-            "max_categories": 15,
-            "batch_size": 100,
-            "classification_batch_size": 20,
+            "min_categories": 5,
+            "max_categories": 8,
+            "batch_size": 10,
+            "classification_batch_size": 10,
         }
 
     if st.session_state.use_custom_categories is None:
@@ -203,10 +203,10 @@ def handle_data_input_and_clustering():
             if st.session_state.use_custom_categories != previous_use_custom_categories:
                 # Reset clustering_params to default values
                 st.session_state.clustering_params = {
-                    "min_categories": 10,
-                    "max_categories": 15,
-                    "batch_size": 100,
-                    "classification_batch_size": 20,
+                    "min_categories": 5,
+                    "max_categories": 8,
+                    "batch_size": 10,
+                    "classification_batch_size": 10,
                 }
 
             if st.session_state.use_custom_categories:
