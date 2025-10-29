@@ -26,7 +26,6 @@ else:
 st.set_page_config(
     page_title="LLM-TextKit",
     page_icon="🚀",
-    layout="wide",
 )
 
 # Define pages

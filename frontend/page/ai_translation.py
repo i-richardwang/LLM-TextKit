@@ -2,7 +2,7 @@ import asyncio
 import os
 import uuid
 import re
-from typing import List, Tuple, Optional
+from typing import List
 
 import pandas as pd
 import streamlit as st
@@ -100,36 +100,6 @@ def display_translation_info() -> None:
     智能语境翻译适用于需要快速、准确翻译大量文本的各类场景，如多语言数据分析。
     """
     )
-
-
-def upload_and_process_file() -> Tuple[Optional[pd.DataFrame], Optional[str]]:
-    """
-    Upload and process CSV file.
-
-    Returns:
-        Tuple[Optional[pd.DataFrame], Optional[str]]: Tuple containing uploaded DataFrame and selected text column name.
-    """
-    uploaded_file = st.file_uploader("上传CSV文件", type="csv")
-    
-    # Process uploaded file
-    if uploaded_file is not None:
-        try:
-            df = pd.read_csv(uploaded_file)
-            st.session_state.uploaded_df = df
-        except Exception as e:
-            st.error(f"处理CSV文件时出错：{str(e)}")
-            return None, None
-    
-    # If data is loaded (either via upload or sample data), display operation interface
-    if st.session_state.uploaded_df is not None:
-        df = st.session_state.uploaded_df
-        st.write("预览上传的数据：")
-        st.dataframe(df)
-
-        text_column = st.selectbox("选择包含要翻译文本的列", df.columns)
-        return df, text_column
-    
-    return None, None
 
 
 def perform_translation(
@@ -261,21 +231,34 @@ def main() -> None:
                         }
 
         with tab2:
-            df, text_column = upload_and_process_file()
+            uploaded_file = st.file_uploader("上传CSV文件", type="csv")
             
             if st.button("📥 导入示例数据", key="demo_data_translation"):
                 try:
                     demo_path = os.path.join(os.path.dirname(__file__), "..", "demo_data", "demo_texts.csv")
-                    df_demo = pd.read_csv(demo_path)
-                    st.session_state.uploaded_df = df_demo
+                    st.session_state.uploaded_df = pd.read_csv(demo_path)
                     st.success("✅ 已加载示例数据")
                 except Exception as e:
                     st.error(f"❌ 加载示例数据失败：{str(e)}")
             
-            if df is not None and st.button("开始批量翻译") and text_topic:
-                st.session_state.translation_results = perform_translation(
-                    df, text_column, text_topic
-                )
+            # Process uploaded file
+            if uploaded_file is not None:
+                try:
+                    st.session_state.uploaded_df = pd.read_csv(uploaded_file)
+                except Exception as e:
+                    st.error(f"处理CSV文件时出错：{str(e)}")
+            
+            # If data is loaded (either via upload or sample data), display operation interface
+            if st.session_state.uploaded_df is not None:
+                st.write("预览上传的数据：")
+                st.dataframe(st.session_state.uploaded_df)
+                
+                text_column = st.selectbox("选择包含要翻译文本的列", st.session_state.uploaded_df.columns)
+                
+                if st.button("开始批量翻译") and text_topic:
+                    st.session_state.translation_results = perform_translation(
+                        st.session_state.uploaded_df, text_column, text_topic
+                    )
 
     if st.session_state.translation_results is not None:
         display_translation_results(st.session_state.translation_results)
